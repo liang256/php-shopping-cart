@@ -57,6 +57,8 @@ class Cart
         $this->list[$itemName]["discountName"] = $discountName;
         switch ($type) {
             case Cart::DISCOUNT_BY_AMOUNT:
+                // avoid discount greater than the original price
+                $value = ($value > $this->list[$itemName]["price"]) ? $this->list[$itemName]["price"] : $value;
                 $this->list[$itemName]["discountAmount"] = $value * $this->list[$itemName]["amount"];
                 break;
 

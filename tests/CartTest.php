@@ -87,8 +87,21 @@ final class CartTest extends TestCase
         $cart->addDiscount("juice", "birthday", 10, Cart::DISCOUNT_BY_AMOUNT);
 
         $this->assertEquals(
-            $cart->getTotal(),
-            300
+
+    public function testAddOverDiscount(): void
+    {
+        $cart = new Cart;
+        $cart->add("juice", 100, 3);
+        $cart->addDiscount("juice", "birthday", 1000, Cart::DISCOUNT_BY_AMOUNT);
+
+        $this->assertEquals(
+            0,
+            $cart->getTotal()
+        );
+        
+        $this->assertEquals(
+            300,
+            $cart->getList()["juice"]["discountAmount"]
         );
     }
 
