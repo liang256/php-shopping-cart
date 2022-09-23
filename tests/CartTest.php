@@ -9,9 +9,10 @@ final class CartTest extends TestCase
         $cart = new Cart;
         $cart->add("fish", 100, 2);
         $cart->add("milk", 180, 3);
+        $cart->add("milk", 10000, 3);
         $this->assertEquals(
-            count($cart->getList()),
-            2
+            2,
+            count($cart->getList())
         );
     }
 
@@ -23,8 +24,8 @@ final class CartTest extends TestCase
         $cart->remove("fish");
 
         $this->assertEquals(
-            count($cart->getList()),
-            1
+            1,
+            count($cart->getList())
         );
     }
 
@@ -35,8 +36,8 @@ final class CartTest extends TestCase
         $cart->add("milk", 180, 3);
 
         $this->assertEquals(
-            $cart->getTotal(),
-            740
+            740,
+            $cart->getTotal()
         );
     }
 
@@ -47,8 +48,8 @@ final class CartTest extends TestCase
         $cart->updateItemAmount("apple", 11);
 
         $this->assertEquals(
-            $cart->getTotal(),
-            97.79
+            97.79,
+            $cart->getTotal()
         );
     }
 
@@ -60,7 +61,6 @@ final class CartTest extends TestCase
         $cart->addDiscount("fish", "fish-day", 10, Cart::DISCOUNT_BY_AMOUNT);
         
         $this->assertEquals(
-            $cart->getList(),
             [
                 "milk" => [
                     "amount" => 3,
@@ -76,7 +76,8 @@ final class CartTest extends TestCase
                     "discountName" => "fish-day",
                     "discountAmount" => 20,
                 ],
-            ]
+            ],
+            $cart->getList()
         );
     }
 
@@ -87,6 +88,10 @@ final class CartTest extends TestCase
         $cart->addDiscount("juice", "birthday", 10, Cart::DISCOUNT_BY_AMOUNT);
 
         $this->assertEquals(
+            300,
+            $cart->getTotal()
+        );
+    }
 
     public function testAddOverDiscount(): void
     {
@@ -112,8 +117,8 @@ final class CartTest extends TestCase
         $cart->addDiscount("juice", "birthday", 75, Cart::DISCOUNT_BY_PERCENTAGE);
 
         $this->assertEquals(
-            $cart->getTotal(),
-            247.5
+            247.5,
+            $cart->getTotal()
         );
     }
 
@@ -125,8 +130,8 @@ final class CartTest extends TestCase
         $cart->removeDiscount("juice");
 
         $this->assertEquals(
-            $cart->getTotal(),
-            330
+            330,
+            $cart->getTotal()
         );
     }
 }
