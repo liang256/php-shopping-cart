@@ -6,6 +6,11 @@ class Cart
     const DISCOUNT_BY_PERCENTAGE = false;
     private $list;
     
+    public function __construct()
+    {
+        $this->list = [];
+    }
+    
     public function add(string $name, float $price, int $amount): void {
         if (key_exists($name, $this->list) || $amount <= 0 || $price < 0) {
             return;
