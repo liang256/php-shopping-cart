@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 final class CartTest extends TestCase
 {
-    public function testAdd(): void
+    public function test_add(): void
     {
         $cart = new Cart;
         $cart->add("fish", 100, 2);
@@ -16,7 +16,7 @@ final class CartTest extends TestCase
         );
     }
 
-    public function testRemove(): void
+    public function test_remove(): void
     {
         $cart = new Cart;
         $cart->add("fish", 100, 2);
@@ -29,7 +29,7 @@ final class CartTest extends TestCase
         );
     }
 
-    public function testGetTotal(): void
+    public function test_get_total(): void
     {
         $cart = new Cart;
         $cart->add("fish", 100, 2);
@@ -41,7 +41,7 @@ final class CartTest extends TestCase
         );
     }
 
-    public function testUpdateItemAmount(): void
+    public function test_update_item_amount(): void
     {
         $cart = new Cart;
         $cart->add("apple", 8.89, 3);
@@ -53,7 +53,7 @@ final class CartTest extends TestCase
         );
     }
 
-    public function testGetList(): void
+    public function test_get_list(): void
     {
         $cart = new Cart;
         $cart->add("fish", 100, 2);
@@ -81,7 +81,7 @@ final class CartTest extends TestCase
         );
     }
 
-    public function testAddDiscount(): void
+    public function test_add_discount(): void
     {
         $cart = new Cart;
         $cart->add("juice", 110, 3);
@@ -93,7 +93,7 @@ final class CartTest extends TestCase
         );
     }
 
-    public function testAddOverDiscount(): void
+    public function test_add_over_discount(): void
     {
         $cart = new Cart;
         $cart->add("juice", 100, 3);
@@ -110,7 +110,7 @@ final class CartTest extends TestCase
         );
     }
 
-    public function testAddDiscountPercentage(): void
+    public function test_add_discount_by_percentage(): void
     {
         $cart = new Cart;
         $cart->add("juice", 110, 3);
@@ -122,7 +122,7 @@ final class CartTest extends TestCase
         );
     }
 
-    public function testRemoveDiscount(): void
+    public function test_remove_discount(): void
     {
         $cart = new Cart;
         $cart->add("juice", 110, 3);
