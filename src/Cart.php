@@ -68,9 +68,18 @@ class Cart
         $this->list[$itemName]["totalPrice"] *= $scale;
     }
 
-    public function addDiscount(string $itemName, string $discountName, float $value, bool $type): void
+    /**
+     * Assign a discount to the given item
+     * 
+     * @param string $itemName     The item's name
+     * @param string $discountName The discount's name
+     * @param float  $value        Value of the discount
+     * 
+     * @return void
+     */
+    public function addDiscount(string $itemName, string $discountName, float $value): void
     {
-        if (! key_exists($itemName, $this->list) || empty($discountName)) {
+        if (! key_exists($itemName, $this->list) || empty($discountName || $value < 0)) {
             return;
         }
 
@@ -79,21 +88,39 @@ class Cart
             throw new Exception("already has a discount");
         }
 
+        // avoid discount greater than the original price
+        $value = min($value, $this->list[$itemName]["price"]);
+    
         $this->list[$itemName]["discountName"] = $discountName;
-        switch ($type) {
-        case Cart::DISCOUNT_BY_AMOUNT:
-            // avoid discount greater than the original price
-            $value = ($value > $this->list[$itemName]["price"]) ? $this->list[$itemName]["price"] : $value;
-            $this->list[$itemName]["discountAmount"] = $value * $this->list[$itemName]["amount"];
-            break;
+        $this->list[$itemName]["discountAmount"] = $value * $this->list[$itemName]["amount"];
+        $this->list[$itemName]["totalPrice"] -= $this->list[$itemName]["discountAmount"];
+    }
 
-        case Cart::DISCOUNT_BY_PERCENTAGE:
-            if ($value > 100 || $value < 0) {
-                throw new Exception("invalid discount value");
-            }
-            $this->list[$itemName]["discountAmount"] = (100 - $value) / 100 * $this->list[$itemName]["totalPrice"];
-            break;
+    /**
+     * Assign a discount to the given item by percentage
+     * 
+     * @param string $itemName     The item's name
+     * @param string $discountName The discount's name
+     * @param float  $value        Percent of the discount. value 70 means 30% off
+     * 
+     * @return void
+     */
+    public function addPercentDiscount(string $itemName, string $discountName, float $value): void
+    {
+        if (! key_exists($itemName, $this->list) || empty($discountName)) {
+            return;
         }
+
+        // need to avoid duplicated discount
+        if (! empty($this->list[$itemName]["discountName"])) {
+            throw new Exception("already has a discount");
+
+        } elseif ($value > 100 || $value < 0) {
+            throw new Exception("invalid discount percent");
+        }
+    
+        $this->list[$itemName]["discountName"] = $discountName;
+        $this->list[$itemName]["discountAmount"] = (100 - $value) / 100 * $this->list[$itemName]["totalPrice"];
         $this->list[$itemName]["totalPrice"] -= $this->list[$itemName]["discountAmount"];
     }
 

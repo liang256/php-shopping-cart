@@ -58,7 +58,7 @@ final class CartTest extends TestCase
         $cart = new Cart;
         $cart->add("fish", 100, 2);
         $cart->add("milk", 180, 3);
-        $cart->addDiscount("fish", "fish-day", 10, Cart::DISCOUNT_BY_AMOUNT);
+        $cart->addDiscount("fish", "fish-day", 10);
         
         $this->assertEquals(
             [
@@ -85,7 +85,7 @@ final class CartTest extends TestCase
     {
         $cart = new Cart;
         $cart->add("juice", 110, 3);
-        $cart->addDiscount("juice", "birthday", 10, Cart::DISCOUNT_BY_AMOUNT);
+        $cart->addDiscount("juice", "birthday", 10);
 
         $this->assertEquals(
             300,
@@ -97,7 +97,7 @@ final class CartTest extends TestCase
     {
         $cart = new Cart;
         $cart->add("juice", 100, 3);
-        $cart->addDiscount("juice", "birthday", 1000, Cart::DISCOUNT_BY_AMOUNT);
+        $cart->addDiscount("juice", "birthday", 1000);
 
         $this->assertEquals(
             0,
@@ -114,7 +114,7 @@ final class CartTest extends TestCase
     {
         $cart = new Cart;
         $cart->add("juice", 110, 3);
-        $cart->addDiscount("juice", "birthday", 75, Cart::DISCOUNT_BY_PERCENTAGE);
+        $cart->addPercentDiscount("juice", "birthday", 75);
 
         $this->assertEquals(
             247.5,
@@ -126,7 +126,7 @@ final class CartTest extends TestCase
     {
         $cart = new Cart;
         $cart->add("juice", 110, 3);
-        $cart->addDiscount("juice", "birthday", 10, Cart::DISCOUNT_BY_AMOUNT);
+        $cart->addDiscount("juice", "birthday", 10);
         $cart->removeDiscount("juice");
 
         $this->assertEquals(
