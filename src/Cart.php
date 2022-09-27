@@ -2,9 +2,6 @@
 
 class Cart
 {
-    const DISCOUNT_BY_AMOUNT = true;
-    const DISCOUNT_BY_PERCENTAGE = false;
-
     private $list;
     
     public function __construct()
@@ -12,6 +9,15 @@ class Cart
         $this->list = [];
     }
     
+    /**
+     * Add an item to this cart
+     * 
+     * @param string $name   The item's name
+     * @param float  $price  Unit price of the item
+     * @param int    $amount Amount of the item
+     * 
+     * @return void
+     */
     public function add(string $name, float $price, int $amount): void
     {
         if (key_exists($name, $this->list) || $amount <= 0 || $price < 0 || empty($name)) {
@@ -26,11 +32,26 @@ class Cart
         ];
     }
 
+    /**
+     * Remove an item from this cart
+     * 
+     * @param string $name The name of the item to remove
+     * 
+     * @return void
+     */
     public function remove(string $itemName): void
     {
         unset($this->list[$itemName]);
     }
 
+    /**
+     * Modify the amount of the given item
+     * 
+     * @param string $itemName The item's name
+     * @param int    $amount   New amount of the item
+     * 
+     * @return void
+     */
     public function updateItemAmount(string $itemName, int $newAmount): void
     {
         if (! key_exists($itemName, $this->list) || $newAmount <= 0) {
@@ -76,6 +97,13 @@ class Cart
         $this->list[$itemName]["totalPrice"] -= $this->list[$itemName]["discountAmount"];
     }
 
+    /**
+     * Remove the discount from the given item
+     * 
+     * @param string $itemName The item's name
+     * 
+     * @return void
+     */
     public function removeDiscount(string $itemName): void
     {
         if (! key_exists($itemName, $this->list)) {
@@ -86,11 +114,21 @@ class Cart
         $this->list[$itemName]["totalPrice"] = $this->list[$itemName]["price"] * $this->list[$itemName]["amount"];
     }
 
+    /**
+     * Return the list of this cart
+     *
+     * @return array
+     */
     public function getList(): array
     {
         return $this->list;
     }
 
+    /**
+     * Return the total price of this cart
+     *
+     * @return float
+     */
     public function getTotal(): float
     {
         $total = 0.0;
