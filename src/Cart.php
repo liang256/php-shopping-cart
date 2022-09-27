@@ -4,6 +4,7 @@ class Cart
 {
     const DISCOUNT_BY_AMOUNT = true;
     const DISCOUNT_BY_PERCENTAGE = false;
+
     private $list;
     
     public function __construct()
@@ -13,7 +14,7 @@ class Cart
     
     public function add(string $name, float $price, int $amount): void
     {
-        if (key_exists($name, $this->list) || $amount <= 0 || $price < 0) {
+        if (key_exists($name, $this->list) || $amount <= 0 || $price < 0 || empty($name)) {
             return;
         }
         $this->list[$name] = [
@@ -39,8 +40,7 @@ class Cart
         $scale = $newAmount / $this->list[$itemName]["amount"];
         $this->list[$itemName]["amount"] = $newAmount;
 
-        $hasDiscount = $this->list[$itemName]["discountName"] != "";
-        if ($hasDiscount) {
+        if (! empty($this->list[$itemName]["discountName"])) {
             $this->list[$itemName]["discountAmount"] *= $scale;
         }
 
@@ -49,12 +49,12 @@ class Cart
 
     public function addDiscount(string $itemName, string $discountName, float $value, bool $type): void
     {
-        if (! key_exists($itemName, $this->list)) {
+        if (! key_exists($itemName, $this->list) || empty($discountName)) {
             return;
         }
 
         // need to avoid duplicated discount
-        if ($this->list[$itemName]["discountName"] != "") {
+        if (! empty($this->list[$itemName]["discountName"])) {
             throw new Exception("already has a discount");
         }
 
