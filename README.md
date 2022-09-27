@@ -1,3 +1,9 @@
+# PHP Shopping Cart
+- a cart can add and remove items
+- the amount of an item can be modified
+- can assign and remove discount to an item in a cart
+- a discount can be created by percentage or by amount
+
 ## Use Docker to Install Dependencies and Run Tests
 0. You have installed Docker
 1. Install dependencies
